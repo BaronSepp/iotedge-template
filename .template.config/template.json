@@ -19,7 +19,11 @@
                 {
                     "exclude": [
                         ".vs/**",
-                        ".git/**"
+                        ".git/**",
+                        "*"
+                    ],
+                    "include": [
+                        "IoTEdge.Template/**/*"
                     ]
                 }
             ]

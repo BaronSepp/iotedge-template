@@ -1,0 +1,26 @@
+# IoTEdge Template
+
+A modern template for Azure IoT Edge with .NET 6, Hosting, Dependency Injection and Logging Abstractions.
+
+## Installation
+
+```shell
+git clone https://github.com/BaronSepp/iotedge-template
+cd iotedge-template
+dotnet new --install .
+```
+
+## How to use
+
+```shell
+dotnet new iotedge -n <Name> -o <OutputPath>
+```
+
+> Currently it is required to manually change the module name in module.json
+
+## Uninstall
+
+```shell
+cd iotedge-template
+dotnet new --uninstall .
+```

@@ -6,16 +6,10 @@
 # Disallowed Directories
 **/obj/
 **/bin/
-**/config/
 
 # Allowed File Types
-!*.md
-!.editorconfig
 !.gitignore
-!*.sln
-!*.slnf
 !*.csproj
 !*.cs
 !*.json
-!*.iotedgeproj
 !Dockerfile*

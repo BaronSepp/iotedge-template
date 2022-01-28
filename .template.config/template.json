@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "info@sepp.dev",
+    "classifications": [ "Console", "IoTEdge" ],
+    "identity": "IoTEdge.Template",
+    "name": "A Modern IoTEdge project",
+    "shortName": "iotedge-template",
+    "sourceName": "IoTEdge.Template",
+    "tags": {
+      "language": "C#",
+      "type": "project"
+    }
+  }

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System;
 
-namespace IoTEdge.Template.Module.IoTEdge.Handlers;
+namespace IoTEdge.Template.IoTEdge.Handlers;
 public sealed class TwinHandler : ITwinHandler
 {
     private readonly ILogger<TwinHandler> _logger;

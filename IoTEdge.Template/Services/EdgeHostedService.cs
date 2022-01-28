@@ -1,10 +1,10 @@
-﻿using IoTEdge.Template.Module.IoTEdge;
+﻿using IoTEdge.Template.IoTEdge;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.Module.Services;
+namespace IoTEdge.Template.Services;
 internal class EdgeHostedService : IHostedService
 {
     private readonly IModuleClient _moduleClient;

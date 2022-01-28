@@ -1,4 +1,4 @@
-﻿using IoTEdge.Template.Module.IoTEdge.Handlers;
+﻿using IoTEdge.Template.IoTEdge.Handlers;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using InternalModuleClient = Microsoft.Azure.Devices.Client.ModuleClient;
 
-namespace IoTEdge.Template.Module.IoTEdge;
+namespace IoTEdge.Template.IoTEdge;
 
 public class ModuleClient : IModuleClient
 {

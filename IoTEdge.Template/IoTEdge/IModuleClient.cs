@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.Module.IoTEdge;
+namespace IoTEdge.Template.IoTEdge;
 
 internal interface IModuleClient : IAsyncDisposable
 {

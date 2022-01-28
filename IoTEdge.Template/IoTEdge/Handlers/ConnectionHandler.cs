@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace IoTEdge.Template.Module.IoTEdge.Handlers;
+namespace IoTEdge.Template.IoTEdge.Handlers;
 
 public class ConnectionHandler : IConnectionHandler
 {

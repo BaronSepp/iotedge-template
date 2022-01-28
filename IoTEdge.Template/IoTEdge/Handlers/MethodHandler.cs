@@ -4,7 +4,7 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.Module.IoTEdge.Handlers;
+namespace IoTEdge.Template.IoTEdge.Handlers;
 public sealed class MethodHandler : IMethodHandler
 {
     private readonly ILogger<MethodHandler> _logger;

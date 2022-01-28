@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Devices.Client;
 
-namespace IoTEdge.Template.Module.IoTEdge.Handlers;
+namespace IoTEdge.Template.IoTEdge.Handlers;
 
 public interface IConnectionHandler
 {

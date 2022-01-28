@@ -1,13 +1,13 @@
-using IoTEdge.Template.Module.IoTEdge;
-using IoTEdge.Template.Module.IoTEdge.Handlers;
-using IoTEdge.Template.Module.Services;
+using IoTEdge.Template.IoTEdge;
+using IoTEdge.Template.IoTEdge.Handlers;
+using IoTEdge.Template.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.Module;
+namespace IoTEdge.Template;
 public static class Program
 {
     public static async Task<int> Main(string[] args)

@@ -1,6 +1,8 @@
 ﻿using IoTEdge.Template.IoTEdge.Handlers;
+using IoTEdge.Template.Options;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,22 +16,31 @@ public sealed class ModuleClient : IModuleClient
     private readonly ITwinHandler _twinHandler;
     private readonly IMethodHandler _methodHandler;
     private readonly IConnectionHandler _connectionHandler;
+    private readonly ModuleClientOptions _moduleClientOptions;
 
     private static InternalModuleClient _moduleClient;
 
-    public ModuleClient(ILogger<ModuleClient> logger, IMessageHandler messageHandler, ITwinHandler twinHandler, IMethodHandler methodHandler, IConnectionHandler connectionHandler)
+    public ModuleClient(
+        ILogger<ModuleClient> logger,
+        IMessageHandler messageHandler,
+        ITwinHandler twinHandler,
+        IMethodHandler methodHandler,
+        IConnectionHandler connectionHandler,
+        IOptions<ModuleClientOptions> moduleClientOptions)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _messageHandler = messageHandler ?? throw new ArgumentNullException(nameof(messageHandler));
         _twinHandler = twinHandler ?? throw new ArgumentNullException(nameof(twinHandler));
         _methodHandler = methodHandler ?? throw new ArgumentNullException(nameof(methodHandler));
         _connectionHandler = connectionHandler ?? throw new ArgumentNullException(nameof(connectionHandler));
+        _moduleClientOptions = moduleClientOptions.Value ?? throw new ArgumentNullException(nameof(moduleClientOptions));
     }
 
     public async Task Init(CancellationToken stoppingToken)
     {
         // Open a connection to the Edge runtime
-        _moduleClient = await InternalModuleClient.CreateFromEnvironmentAsync(TransportType.Amqp_Tcp_Only).ConfigureAwait(false);
+        var upstreamProtocol = _moduleClientOptions.GetUpstreamProtocol();
+        _moduleClient = await InternalModuleClient.CreateFromEnvironmentAsync(upstreamProtocol).ConfigureAwait(false);
         await _moduleClient.OpenAsync(stoppingToken).ConfigureAwait(false);
         _logger.LogInformation("IoT Hub module client initialized.");
 

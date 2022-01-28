@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+	<ProjectID>00000000-0000-0000-0000-000000000000</ProjectID>
   </PropertyGroup>
 
   <ItemGroup>

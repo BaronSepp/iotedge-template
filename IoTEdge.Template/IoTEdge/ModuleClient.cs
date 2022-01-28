@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using InternalModuleClient = Microsoft.Azure.Devices.Client.ModuleClient;
 
 namespace IoTEdge.Template.IoTEdge;
-
-public class ModuleClient : IModuleClient
+public sealed class ModuleClient : IModuleClient
 {
     private readonly ILogger<ModuleClient> _logger;
     private readonly IMessageHandler _messageHandler;

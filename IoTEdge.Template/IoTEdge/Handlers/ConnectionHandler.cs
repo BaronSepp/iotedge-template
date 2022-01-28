@@ -3,8 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 
 namespace IoTEdge.Template.IoTEdge.Handlers;
-
-public class ConnectionHandler : IConnectionHandler
+public sealed class ConnectionHandler : IConnectionHandler
 {
     private readonly ILogger<ConnectionHandler> _logger;
 

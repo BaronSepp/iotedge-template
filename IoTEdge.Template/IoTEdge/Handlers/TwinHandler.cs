@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Devices.Shared;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 
 namespace IoTEdge.Template.IoTEdge.Handlers;
 public sealed class TwinHandler : ITwinHandler

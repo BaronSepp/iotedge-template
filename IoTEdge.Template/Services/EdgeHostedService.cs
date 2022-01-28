@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace IoTEdge.Template.Services;
-internal class EdgeHostedService : IHostedService
+public class EdgeHostedService : IHostedService
 {
     private readonly IModuleClient _moduleClient;
 

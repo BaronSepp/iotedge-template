@@ -51,8 +51,11 @@ public static class Program
             {
 
                 services.AddHostedService<EdgeService>();
+                services.AddHostedService<MetricService>();
+
                 services.AddOptions();
                 services.Configure<ModuleClientOptions>(host.Configuration.GetRequiredSection(ModuleClientOptions.Section));
+                services.Configure<MetricOptions>(host.Configuration.GetRequiredSection(MetricOptions.Section));
 
                 services.AddSingleton<IMessageHandler, MessageHandler>();
                 services.AddSingleton<IMethodHandler, MethodHandler>();

@@ -18,7 +18,7 @@ public sealed class ModuleClient : IModuleClient
     private readonly IConnectionHandler _connectionHandler;
     private readonly ModuleClientOptions _moduleClientOptions;
 
-    private static InternalModuleClient _moduleClient;
+    private InternalModuleClient _moduleClient;
 
     public ModuleClient(
         ILogger<ModuleClient> logger,
@@ -36,29 +36,29 @@ public sealed class ModuleClient : IModuleClient
         _moduleClientOptions = moduleClientOptions.Value ?? throw new ArgumentNullException(nameof(moduleClientOptions));
     }
 
-    public async Task Init(CancellationToken stoppingToken)
+    public async Task OpenAsync(CancellationToken stoppingToken)
     {
         // Open a connection to the Edge runtime
         var upstreamProtocol = _moduleClientOptions.GetUpstreamProtocol();
         _moduleClient = await InternalModuleClient.CreateFromEnvironmentAsync(upstreamProtocol).ConfigureAwait(false);
         await _moduleClient.OpenAsync(stoppingToken).ConfigureAwait(false);
-        _logger.LogInformation("IoT Hub module client initialized.");
+        _logger.LogInformation("Initialized ModuleClient using {UpstreamProtocol}", upstreamProtocol);
 
         // Connection Handler
         _moduleClient.SetConnectionStatusChangesHandler(_connectionHandler.OnConnectionChange);
-        _logger.LogInformation("Connection handler ready.");
+        _logger.LogDebug("Connection handler ready.");
 
         // Twin Handler
-        await _moduleClient.SetDesiredPropertyUpdateCallbackAsync(_twinHandler.OnDesiredPropertiesUpdate, _moduleClient, stoppingToken).ConfigureAwait(false);
-        _logger.LogInformation("Twin handler ready.");
+        await _moduleClient.SetDesiredPropertyUpdateCallbackAsync(_twinHandler.OnDesiredPropertiesUpdate, null, stoppingToken).ConfigureAwait(false);
+        _logger.LogDebug("Twin handler ready.");
 
         // Method Handlers
         await _moduleClient.SetMethodDefaultHandlerAsync(_methodHandler.Default, null, stoppingToken).ConfigureAwait(false);
-        _logger.LogInformation("Method handlers ready.");
+        _logger.LogDebug("Method handlers ready.");
 
         // Message Handlers
         await _moduleClient.SetMessageHandlerAsync(_messageHandler.Default, null, stoppingToken).ConfigureAwait(false);
-        _logger.LogInformation("Message handlers ready.");
+        _logger.LogDebug("Message handlers ready.");
     }
 
     public async Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default)
@@ -68,7 +68,14 @@ public sealed class ModuleClient : IModuleClient
 
     public async ValueTask DisposeAsync()
     {
-        await _moduleClient.CloseAsync().ConfigureAwait(false);
-        GC.SuppressFinalize(this);
+        _logger.LogInformation("Stopping ModuleClient asynchronousy..");
+        if (_moduleClient is IAsyncDisposable disposable) await disposable.DisposeAsync().ConfigureAwait(false);
+    }
+
+    public void Dispose()
+    {
+        _logger.LogInformation("Stopping ModuleClient..");
+        _moduleClient?.CloseAsync().Wait();
+        _moduleClient?.Dispose();
     }
 }

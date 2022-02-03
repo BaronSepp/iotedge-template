@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace IoTEdge.Template.IoTEdge;
-public interface IModuleClient : IAsyncDisposable
+public interface IModuleClient : IAsyncDisposable, IDisposable
 {
-    Task Init(CancellationToken stoppingToken);
+    Task OpenAsync(CancellationToken stoppingToken);
     Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default);
 }

@@ -24,6 +24,9 @@ public static class Program
     private static IHostBuilder CreateHostBuilder(string[] args)
     {
         return Host.CreateDefaultBuilder()
+#if DEBUG
+            .UseEnvironment("Development")
+#endif
             .ConfigureAppConfiguration(app =>
             {
                 var switchMappings = new Dictionary<string, string>
@@ -46,6 +49,8 @@ public static class Program
             })
             .ConfigureServices((host, services) =>
             {
+
+                services.AddHostedService<EdgeService>();
                 services.AddOptions();
                 services.Configure<ModuleClientOptions>(host.Configuration.GetRequiredSection(ModuleClientOptions.Section));
 
@@ -53,10 +58,8 @@ public static class Program
                 services.AddSingleton<IMethodHandler, MethodHandler>();
                 services.AddSingleton<ITwinHandler, TwinHandler>();
                 services.AddSingleton<IMessageHandler, MessageHandler>();
-
+                services.AddSingleton<IConnectionHandler, ConnectionHandler>();
                 services.AddSingleton<IModuleClient, ModuleClient>();
-                services.AddHostedService<EdgeHostedService>();
-
             })
             .UseConsoleLifetime();
     }

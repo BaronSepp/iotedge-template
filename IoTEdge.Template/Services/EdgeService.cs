@@ -5,22 +5,17 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace IoTEdge.Template.Services;
-public class EdgeHostedService : IHostedService
+public class EdgeService : BackgroundService
 {
     private readonly IModuleClient _moduleClient;
 
-    public EdgeHostedService(IModuleClient moduleClient)
+    public EdgeService(IModuleClient moduleClient)
     {
         _moduleClient = moduleClient ?? throw new ArgumentNullException(nameof(moduleClient)); ;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await _moduleClient.Init(cancellationToken);
-    }
-
-    public async Task StopAsync(CancellationToken cancellationToken)
-    {
-        await _moduleClient.DisposeAsync();
+        await _moduleClient.OpenAsync(stoppingToken).ConfigureAwait(false);
     }
 }

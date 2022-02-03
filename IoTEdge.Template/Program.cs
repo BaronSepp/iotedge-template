@@ -49,7 +49,6 @@ public static class Program
             })
             .ConfigureServices((host, services) =>
             {
-
                 services.AddHostedService<EdgeService>();
                 services.AddHostedService<MetricService>();
 

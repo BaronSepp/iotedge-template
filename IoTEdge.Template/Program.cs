@@ -11,8 +11,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IoTEdge.Template;
+
+/// <summary>
+/// The starting point of the application.
+/// </summary>
 public static class Program
 {
+    /// <summary>
+    /// Initialization of the application.
+    /// </summary>
+    /// <param name="args">Command line arguments in key/value pair format.</param>
+    /// <returns><inheritdoc cref="Environment.ExitCode"/></returns>
     public static async Task<int> Main(string[] args)
     {
         using var host = CreateHostBuilder(args).Build();
@@ -21,6 +30,11 @@ public static class Program
         return Environment.ExitCode;
     }
 
+    /// <summary>
+    /// Initializes and configures a new instance of the <see cref="HostBuilder"/> class.
+    /// </summary>
+    /// <param name="args">Command line arguments in key/value pair format.</param>
+    /// <returns>The initialized <see cref="IHostBuilder"/>.</returns>
     private static IHostBuilder CreateHostBuilder(string[] args)
     {
         return Host.CreateDefaultBuilder()
@@ -49,9 +63,6 @@ public static class Program
             })
             .ConfigureServices((host, services) =>
             {
-                services.AddHostedService<EdgeService>();
-                services.AddHostedService<MetricService>();
-
                 services.AddOptions();
                 services.Configure<ModuleClientOptions>(host.Configuration.GetRequiredSection(ModuleClientOptions.Section));
                 services.Configure<MetricOptions>(host.Configuration.GetRequiredSection(MetricOptions.Section));
@@ -62,8 +73,10 @@ public static class Program
                 services.AddSingleton<IMessageHandler, MessageHandler>();
                 services.AddSingleton<IConnectionHandler, ConnectionHandler>();
                 services.AddSingleton<IModuleClient, ModuleClient>();
+
+                services.AddHostedService<EdgeService>();
+                services.AddHostedService<MetricService>();
             })
             .UseConsoleLifetime();
     }
 }
-

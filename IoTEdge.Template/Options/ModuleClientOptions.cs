@@ -1,6 +1,11 @@
 ﻿using Microsoft.Azure.Devices.Client;
 
 namespace IoTEdge.Template.Options;
+
+/// <summary>
+/// Options to configure the IoTEdge Service.
+/// These are overriden by the Module Twin if set.
+/// </summary>
 public class ModuleClientOptions
 {
     /// <summary>
@@ -8,14 +13,10 @@ public class ModuleClientOptions
     /// </summary>
     public const string Section = "ModuleClient";
 
-    /// <summary>
-    /// The protocol to use for communication with IoT Hub.
-    /// </summary>
+    /// <summary>The protocol to use for communication with IoT Hub.</summary>
     public string UpstreamProtocol { get; set; }
 
-    /// <summary>
-    /// Get the UpstreamProtocol from current options.
-    /// </summary>
+    /// <summary>Get the UpstreamProtocol from current options.</summary>
     /// <returns>The <see cref="TransportType">TransportType</see> to use.</returns>
     public TransportType GetUpstreamProtocol()
     {

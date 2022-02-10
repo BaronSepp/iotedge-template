@@ -5,15 +5,25 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace IoTEdge.Template.Services;
-public class EdgeService : BackgroundService
+
+/// <summary>
+/// <see cref="BackgroundService"/> for the <see cref="ModuleClient"/>.
+/// </summary>
+public sealed class EdgeService : BackgroundService
 {
     private readonly IModuleClient _moduleClient;
 
+    /// <summary>
+    /// Public <see cref="EdgeService"/> constructor, parameters resolved through <b>Dependency injection</b>.
+    /// </summary>
+    /// <param name="moduleClient"><see cref="IModuleClient"/> resolved through <b>Dependency injection</b>.</param>
+    /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
     public EdgeService(IModuleClient moduleClient)
     {
         _moduleClient = moduleClient ?? throw new ArgumentNullException(nameof(moduleClient)); ;
     }
 
+    /// <inheritdoc cref="BackgroundService.ExecuteAsync(CancellationToken)"/>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await _moduleClient.OpenAsync(stoppingToken).ConfigureAwait(false);

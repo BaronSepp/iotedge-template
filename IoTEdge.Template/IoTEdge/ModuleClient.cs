@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using InternalModuleClient = Microsoft.Azure.Devices.Client.ModuleClient;
 
 namespace IoTEdge.Template.IoTEdge;
+
+/// <summary>
+/// An implemented wrapper around <see cref="InternalModuleClient"/> for use with hosted services.
+/// </summary>
 public sealed class ModuleClient : IModuleClient
 {
     private readonly ILogger<ModuleClient> _logger;
@@ -20,6 +24,16 @@ public sealed class ModuleClient : IModuleClient
 
     private InternalModuleClient _moduleClient;
 
+    /// <summary>
+    /// Public <see cref="ModuleClient"/> constructor, parameters resolved through <b>Dependency injection</b>.
+    /// </summary>
+    /// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
+    /// <param name="messageHandler"><see cref="IMessageHandler"/> resolved through <b>Dependency injection</b>.</param>
+    /// <param name="twinHandler"><see cref="ITwinHandler"/> resolved through <b>Dependency injection</b>.</param>
+    /// <param name="methodHandler"><see cref="IMethodHandler"/> resolved through <b>Dependency injection</b>.</param>
+    /// <param name="connectionHandler"><see cref="IConnectionHandler"/> resolved through <b>Dependency injection</b>.</param>
+    /// <param name="moduleClientOptions"><see cref="IOptions{ModuleClientOptions}"/> resolved through <b>Dependency injection</b>.</param>
+    /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
     public ModuleClient(
         ILogger<ModuleClient> logger,
         IMessageHandler messageHandler,
@@ -36,6 +50,7 @@ public sealed class ModuleClient : IModuleClient
         _moduleClientOptions = moduleClientOptions.Value ?? throw new ArgumentNullException(nameof(moduleClientOptions));
     }
 
+    /// <inheritdoc cref="IModuleClient.OpenAsync(CancellationToken)" />
     public async Task OpenAsync(CancellationToken stoppingToken)
     {
         // Open a connection to the Edge runtime
@@ -61,17 +76,20 @@ public sealed class ModuleClient : IModuleClient
         _logger.LogDebug("Message handlers ready.");
     }
 
+    /// <inheritdoc cref="IModuleClient.SendEventAsync"/>
     public async Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default)
     {
         await _moduleClient.SendEventAsync(output, message, stoppingToken);
     }
 
+    /// <inheritdoc cref="IAsyncDisposable.DisposeAsync"/>
     public async ValueTask DisposeAsync()
     {
         _logger.LogInformation("Stopping ModuleClient asynchronousy..");
         if (_moduleClient is IAsyncDisposable disposable) await disposable.DisposeAsync().ConfigureAwait(false);
     }
 
+    /// <inheritdoc cref="IDisposable.Dispose"/>
     public void Dispose()
     {
         _logger.LogInformation("Stopping ModuleClient..");

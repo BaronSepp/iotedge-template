@@ -53,11 +53,10 @@ public sealed class ModuleClient : IModuleClient
     /// <inheritdoc cref="IModuleClient.OpenAsync(CancellationToken)" />
     public async Task OpenAsync(CancellationToken stoppingToken)
     {
-        // Open a connection to the Edge runtime
+        // Initialize the Edge runtime
         var upstreamProtocol = _moduleClientOptions.GetUpstreamProtocol();
         _moduleClient = await InternalModuleClient.CreateFromEnvironmentAsync(upstreamProtocol).ConfigureAwait(false);
-        await _moduleClient.OpenAsync(stoppingToken).ConfigureAwait(false);
-        _logger.LogInformation("Initialized ModuleClient using {UpstreamProtocol}", upstreamProtocol);
+        _logger.LogDebug("Initialized ModuleClient using {UpstreamProtocol}.", upstreamProtocol);
 
         // Connection Handler
         _moduleClient.SetConnectionStatusChangesHandler(_connectionHandler.OnConnectionChange);
@@ -74,6 +73,10 @@ public sealed class ModuleClient : IModuleClient
         // Message Handlers
         await _moduleClient.SetMessageHandlerAsync(_messageHandler.Default, null, stoppingToken).ConfigureAwait(false);
         _logger.LogDebug("Message handlers ready.");
+
+        // Open the ModuleClient instance
+        await _moduleClient.OpenAsync(stoppingToken).ConfigureAwait(false);
+        _logger.LogDebug("ModuleClient ready.");
     }
 
     /// <inheritdoc cref="IModuleClient.SendEventAsync"/>
@@ -85,14 +88,14 @@ public sealed class ModuleClient : IModuleClient
     /// <inheritdoc cref="IAsyncDisposable.DisposeAsync"/>
     public async ValueTask DisposeAsync()
     {
-        _logger.LogInformation("Stopping ModuleClient asynchronousy..");
+        _logger.LogDebug("Disposing ModuleClient asynchronousy..");
         if (_moduleClient is IAsyncDisposable disposable) await disposable.DisposeAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc cref="IDisposable.Dispose"/>
     public void Dispose()
     {
-        _logger.LogInformation("Stopping ModuleClient..");
+        _logger.LogDebug("Disposing ModuleClient..");
         _moduleClient?.CloseAsync().Wait();
         _moduleClient?.Dispose();
     }

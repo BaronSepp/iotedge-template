@@ -22,7 +22,7 @@ public sealed class MetricService : IHostedService
     /// Public <see cref="MetricService"/> constructor, parameters resolved through <b>Dependency injection</b>.
     /// </summary>
     /// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
-    /// <param name="options"><see cref="IOptions{ModuleClientOptions}"/> resolved through <b>Dependency injection</b>.</param>
+    /// <param name="options"><see cref="IOptions{MetricOptions}"/> resolved through <b>Dependency injection</b>.</param>
     /// <exception cref="ArgumentNullException"></exception>
     public MetricService(ILogger<MetricService> logger, IOptions<MetricOptions> options)
     {
@@ -43,7 +43,7 @@ public sealed class MetricService : IHostedService
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Failed to start Metrics server.");
+            _logger.LogWarning(ex, "The MetricsServer has encountered an error. Disabling..");
         }
 
         return Task.CompletedTask;

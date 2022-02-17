@@ -22,7 +22,7 @@ public class MetricOptions
     public string Url { get; set; } = "metrics/";
 
     /// <summary> Whether the <see cref="MetricServer"/> uses HTTP over TLS.</summary>
-    /// <remarks> Recommended in production enviroments.</remarks>
+    /// <remarks> Recommended in production environments.</remarks>
     public bool UseHttps { get; set; } = false;
 
     /// <summary><inheritdoc cref="object.ToString"/></summary>

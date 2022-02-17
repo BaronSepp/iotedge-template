@@ -88,7 +88,7 @@ public sealed class ModuleClient : IModuleClient
     /// <inheritdoc cref="IAsyncDisposable.DisposeAsync"/>
     public async ValueTask DisposeAsync()
     {
-        _logger.LogDebug("Disposing ModuleClient asynchronousy..");
+        _logger.LogDebug("Disposing ModuleClient asynchronously..");
         if (_moduleClient is IAsyncDisposable disposable) await disposable.DisposeAsync().ConfigureAwait(false);
     }
 

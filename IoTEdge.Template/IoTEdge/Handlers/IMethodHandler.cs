@@ -9,7 +9,7 @@ namespace IoTEdge.Template.IoTEdge.Handlers;
 public interface IMethodHandler
 {
     /// <summary>
-    /// The default delegate that applies for all method endpoinds.
+    /// The default delegate that applies for all method endpoints.
     /// If a delegate is already associated with the method, it
     /// will be called, else the default delegate will be called.
     /// </summary>

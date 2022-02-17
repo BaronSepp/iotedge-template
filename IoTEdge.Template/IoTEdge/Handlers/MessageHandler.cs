@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace IoTEdge.Template.IoTEdge.Handlers;
 
 /// <summary>
-/// Implementation for handling incomming messages.
+/// Implementation for handling incoming messages.
 /// </summary>
 public sealed class MessageHandler : IMessageHandler
 {

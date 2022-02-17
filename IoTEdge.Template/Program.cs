@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using IoTEdge.Template.IoTEdge;
 using IoTEdge.Template.IoTEdge.Handlers;
 using IoTEdge.Template.Options;
@@ -6,9 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace IoTEdge.Template;
 

@@ -1,7 +1,7 @@
-﻿using Microsoft.Azure.Devices.Client;
+using System;
+using Microsoft.Azure.Devices.Client;
 using Microsoft.Extensions.Logging;
 using Prometheus;
-using System;
 
 namespace IoTEdge.Template.IoTEdge.Handlers;
 

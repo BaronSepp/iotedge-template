@@ -1,8 +1,8 @@
-﻿using Microsoft.Azure.Devices.Shared;
-using Microsoft.Extensions.Logging;
-using Prometheus;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Shared;
+using Microsoft.Extensions.Logging;
+using Prometheus;
 
 namespace IoTEdge.Template.IoTEdge.Handlers;
 

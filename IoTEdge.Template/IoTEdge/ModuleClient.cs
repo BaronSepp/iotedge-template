@@ -1,11 +1,11 @@
-﻿using IoTEdge.Template.IoTEdge.Handlers;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using IoTEdge.Template.IoTEdge.Handlers;
 using IoTEdge.Template.Options;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using InternalModuleClient = Microsoft.Azure.Devices.Client.ModuleClient;
 
 namespace IoTEdge.Template.IoTEdge;
@@ -89,7 +89,10 @@ public sealed class ModuleClient : IModuleClient
     public async ValueTask DisposeAsync()
     {
         _logger.LogDebug("Disposing ModuleClient asynchronously..");
-        if (_moduleClient is IAsyncDisposable disposable) await disposable.DisposeAsync().ConfigureAwait(false);
+        if (_moduleClient is IAsyncDisposable disposable)
+        {
+            await disposable.DisposeAsync().ConfigureAwait(false);
+        }
     }
 
     /// <inheritdoc cref="IDisposable.Dispose"/>

@@ -1,4 +1,4 @@
-﻿using Prometheus;
+using Prometheus;
 
 namespace IoTEdge.Template.Options;
 
@@ -23,7 +23,7 @@ public class MetricOptions
 
     /// <summary> Whether the <see cref="MetricServer"/> uses HTTP over TLS.</summary>
     /// <remarks> Recommended in production environments.</remarks>
-    public bool UseHttps { get; set; } = false;
+    public bool UseHttps { get; set; }
 
     /// <summary><inheritdoc cref="object.ToString"/></summary>
     /// <returns>The full address of the <see cref="MetricServer"/>.</returns>

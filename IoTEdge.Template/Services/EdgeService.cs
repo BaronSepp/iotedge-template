@@ -1,9 +1,9 @@
-﻿using IoTEdge.Template.IoTEdge;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using IoTEdge.Template.IoTEdge;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace IoTEdge.Template.Services;
 
@@ -30,7 +30,7 @@ public sealed class EdgeService : BackgroundService
     /// <inheritdoc cref="BackgroundService.ExecuteAsync(CancellationToken)"/>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        try 
+        try
         {
             await _moduleClient.OpenAsync(stoppingToken).ConfigureAwait(false);
             _logger.LogInformation("Successfully started the ModuleClient.");

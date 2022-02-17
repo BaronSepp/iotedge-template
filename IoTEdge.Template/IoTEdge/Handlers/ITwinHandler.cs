@@ -1,6 +1,6 @@
-﻿using Microsoft.Azure.Devices.Client;
-using Microsoft.Azure.Devices.Shared;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Shared;
 
 namespace IoTEdge.Template.IoTEdge.Handlers;
 

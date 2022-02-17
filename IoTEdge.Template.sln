@@ -7,6 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoTEdge.Template", "IoTEdge
 EndProject
 Project("{34036844-64E7-43A5-9151-4AD90E180989}") = "IoTEdge.Template.Edge", "IoTEdge.Template.Edge\IoTEdge.Template.Edge.iotedgeproj", "{B137CC3E-FAF6-4756-80C6-2A8058A7FB8B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13999D1B-5DB4-4C43-8313-8D777E5DF17B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

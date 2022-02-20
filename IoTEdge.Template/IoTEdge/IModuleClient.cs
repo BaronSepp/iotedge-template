@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Shared;
 using InternalModuleClient = Microsoft.Azure.Devices.Client.ModuleClient;
 
 namespace IoTEdge.Template.IoTEdge;
@@ -16,4 +17,7 @@ public interface IModuleClient : IAsyncDisposable, IDisposable
 
     /// <inheritdoc cref="InternalModuleClient.SendEventAsync(string, Message, CancellationToken)"/>
     Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default);
+
+    /// <inheritdoc cref="InternalModuleClient.UpdateReportedPropertiesAsync(TwinCollection, CancellationToken)"/>
+    Task UpdateReportedPropertiesAsync(TwinCollection desiredProperties, CancellationToken stoppingToken = default);
 }

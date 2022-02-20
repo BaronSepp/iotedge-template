@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using IoTEdge.Template.IoTEdge.Handlers;
 using IoTEdge.Template.Options;
 using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Shared;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using InternalModuleClient = Microsoft.Azure.Devices.Client.ModuleClient;
@@ -63,15 +64,15 @@ public sealed class ModuleClient : IModuleClient
         _logger.LogDebug("Connection handler ready.");
 
         // Twin Handler
-        await _moduleClient.SetDesiredPropertyUpdateCallbackAsync(_twinHandler.OnDesiredPropertiesUpdate, null, stoppingToken).ConfigureAwait(false);
+        await _moduleClient.SetDesiredPropertyUpdateCallbackAsync(_twinHandler.OnDesiredPropertiesUpdate, this, stoppingToken).ConfigureAwait(false);
         _logger.LogDebug("Twin handler ready.");
 
         // Method Handlers
-        await _moduleClient.SetMethodDefaultHandlerAsync(_methodHandler.Default, null, stoppingToken).ConfigureAwait(false);
+        await _moduleClient.SetMethodDefaultHandlerAsync(_methodHandler.Default, this, stoppingToken).ConfigureAwait(false);
         _logger.LogDebug("Method handlers ready.");
 
         // Message Handlers
-        await _moduleClient.SetMessageHandlerAsync(_messageHandler.Default, null, stoppingToken).ConfigureAwait(false);
+        await _moduleClient.SetMessageHandlerAsync(_messageHandler.Default, this, stoppingToken).ConfigureAwait(false);
         _logger.LogDebug("Message handlers ready.");
 
         // Open the ModuleClient instance
@@ -83,6 +84,12 @@ public sealed class ModuleClient : IModuleClient
     public async Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default)
     {
         await _moduleClient.SendEventAsync(output, message, stoppingToken);
+    }
+
+    /// <inheritdoc cref="IModuleClient.UpdateReportedPropertiesAsync"/>
+    public async Task UpdateReportedPropertiesAsync(TwinCollection desiredProperties, CancellationToken stoppingToken = default)
+    {
+        await _moduleClient.UpdateReportedPropertiesAsync(desiredProperties, stoppingToken);
     }
 
     /// <inheritdoc cref="IAsyncDisposable.DisposeAsync"/>

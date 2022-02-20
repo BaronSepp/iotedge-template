@@ -28,10 +28,16 @@ public sealed class TwinHandler : ITwinHandler
     }
 
     /// <inheritdoc cref="ITwinHandler.OnDesiredPropertiesUpdate(TwinCollection, object)"/>
-    public Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext)
+    public async Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext)
     {
-        TwinUpdateCounter.Inc();
+        desiredProperties.ClearMetadata();
         _logger.LogInformation("Incoming desired properties: {properties}", desiredProperties.ToJson());
-        return Task.CompletedTask;
+
+        if (userContext is IModuleClient moduleClient)
+        {
+            await moduleClient.UpdateReportedPropertiesAsync(desiredProperties);
+        }
+
+        TwinUpdateCounter.Inc();
     }
 }

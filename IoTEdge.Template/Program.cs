@@ -38,9 +38,6 @@ public static class Program
     private static IHostBuilder CreateHostBuilder(string[] args)
     {
         return Host.CreateDefaultBuilder()
-#if DEBUG
-            .UseEnvironment("Development")
-#endif
             .ConfigureAppConfiguration(app =>
             {
                 var switchMappings = new Dictionary<string, string>

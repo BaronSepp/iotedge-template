@@ -11,11 +11,8 @@ namespace IoTEdge.Template.IoTEdge.Handlers;
 /// </summary>
 public sealed class TwinHandler : ITwinHandler
 {
+    private readonly Counter _twinUpdateCounter;
     private readonly ILogger<TwinHandler> _logger;
-
-    // Metrics
-    private readonly Counter TwinUpdateCounter =
-        Metrics.CreateCounter("twin_updates_received", "Amount of twin updates received");
 
     /// <summary>
     /// Public <see cref="TwinHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
@@ -24,6 +21,7 @@ public sealed class TwinHandler : ITwinHandler
     /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
     public TwinHandler(ILogger<TwinHandler> logger)
     {
+        _twinUpdateCounter = Metrics.CreateCounter("twin_updates_received", "Amount of twin updates received");
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -38,6 +36,6 @@ public sealed class TwinHandler : ITwinHandler
             await moduleClient.UpdateReportedPropertiesAsync(desiredProperties);
         }
 
-        TwinUpdateCounter.Inc();
+        _twinUpdateCounter.Inc();
     }
 }

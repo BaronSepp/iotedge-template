@@ -12,11 +12,8 @@ namespace IoTEdge.Template.IoTEdge.Handlers;
 /// </summary>
 public sealed class MethodHandler : IMethodHandler
 {
+    private readonly Counter _unhandledMethodCounter;
     private readonly ILogger<MethodHandler> _logger;
-
-    // Metrics
-    private readonly Counter UnhandledMethodCounter =
-        Metrics.CreateCounter("unhandled_method_counter", "Amount of unhandled methods received");
 
     /// <summary>
     /// Public <see cref="MethodHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
@@ -25,13 +22,14 @@ public sealed class MethodHandler : IMethodHandler
     /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
     public MethodHandler(ILogger<MethodHandler> logger)
     {
+        _unhandledMethodCounter = Metrics.CreateCounter("unhandled_method_counter", "Amount of unhandled methods received");
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     /// <inheritdoc cref="IMethodHandler.Default(MethodRequest, object)"/>
     public Task<MethodResponse> Default(MethodRequest method, object userContext)
     {
-        UnhandledMethodCounter.Inc();
+        _unhandledMethodCounter.Inc();
         _logger.LogInformation("Unhandled method '{Method}' received with data '{Data}'.", method.Name, method.DataAsJson);
 
         var response = new MethodResponse(JsonSerializer.SerializeToUtf8Bytes("short and stout"), 418);

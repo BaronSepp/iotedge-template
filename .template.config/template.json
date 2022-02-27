@@ -18,9 +18,11 @@
             "modifiers": [
                 {
                     "exclude": [
-                        ".vs/**",
+                        "*",
                         ".git/**",
-                        "*"
+                        "**/.vs/**",
+                        "**/bin/**",
+                        "**/obj/**"
                     ],
                     "include": [
                         "IoTEdge.Template/**/*"

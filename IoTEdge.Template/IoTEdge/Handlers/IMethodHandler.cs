@@ -1,5 +1,5 @@
-using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
+using System.Threading.Tasks;
 
 namespace IoTEdge.Template.IoTEdge.Handlers;
 

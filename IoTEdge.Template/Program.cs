@@ -1,5 +1,5 @@
-using IoTEdge.Template.IoTEdge;
-using IoTEdge.Template.IoTEdge.Handlers;
+using IoTEdge.Template.IoT;
+using IoTEdge.Template.IoT.Handlers;
 using IoTEdge.Template.Options;
 using IoTEdge.Template.Services;
 using Microsoft.Extensions.Configuration;

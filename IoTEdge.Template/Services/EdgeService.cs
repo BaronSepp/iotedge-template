@@ -1,4 +1,4 @@
-using IoTEdge.Template.IoTEdge;
+using IoTEdge.Template.IoT;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,8 +23,8 @@ public sealed class EdgeService : BackgroundService
     /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
     public EdgeService(ILogger<EdgeService> logger, IModuleClient moduleClient)
     {
-        _logger = logger;
-        _moduleClient = moduleClient ?? throw new ArgumentNullException(nameof(moduleClient)); ;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _moduleClient = moduleClient ?? throw new ArgumentNullException(nameof(moduleClient));
     }
 
     /// <inheritdoc cref="BackgroundService.ExecuteAsync(CancellationToken)"/>

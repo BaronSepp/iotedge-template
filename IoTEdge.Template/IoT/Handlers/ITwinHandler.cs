@@ -2,7 +2,7 @@ using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.IoTEdge.Handlers;
+namespace IoTEdge.Template.IoT.Handlers;
 
 /// <summary>
 /// Interface for handling module twin updates.

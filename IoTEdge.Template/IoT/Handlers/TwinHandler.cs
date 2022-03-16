@@ -4,7 +4,7 @@ using Prometheus;
 using System;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.IoTEdge.Handlers;
+namespace IoTEdge.Template.IoT.Handlers;
 
 /// <summary>
 /// Implementation for handling module twin updates.

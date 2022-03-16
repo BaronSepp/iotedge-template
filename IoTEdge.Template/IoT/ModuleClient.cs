@@ -1,4 +1,4 @@
-using IoTEdge.Template.IoTEdge.Handlers;
+using IoTEdge.Template.IoT.Handlers;
 using IoTEdge.Template.Options;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using InternalModuleClient = Microsoft.Azure.Devices.Client.ModuleClient;
 
-namespace IoTEdge.Template.IoTEdge;
+namespace IoTEdge.Template.IoT;
 
 /// <summary>
 /// An implemented wrapper around <see cref="InternalModuleClient"/> for use with hosted services.
@@ -64,6 +64,8 @@ public sealed class ModuleClient : IModuleClient
         _logger.LogDebug("Connection handler ready.");
 
         // Twin Handler
+        var twin = await _moduleClient.GetTwinAsync(stoppingToken);
+        await _twinHandler.OnDesiredPropertiesUpdate(twin.Properties.Desired, this);
         await _moduleClient.SetDesiredPropertyUpdateCallbackAsync(_twinHandler.OnDesiredPropertiesUpdate, this, stoppingToken).ConfigureAwait(false);
         _logger.LogDebug("Twin handler ready.");
 

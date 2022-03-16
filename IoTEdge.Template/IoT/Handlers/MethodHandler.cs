@@ -5,7 +5,7 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.IoTEdge.Handlers;
+namespace IoTEdge.Template.IoT.Handlers;
 
 /// <summary>
 /// Implementation for handling C2D method calls.

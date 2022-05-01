@@ -110,6 +110,12 @@ public sealed class ModuleClient : IModuleClient
         await _moduleClient.SendEventAsync(output, message, stoppingToken);
     }
 
+    /// <inheritdoc cref="IModuleClient.SendEventBatchAsync"/>
+    public async Task SendEventBatchAsync(string output, IEnumerable<Message> messages, CancellationToken stoppingToken = default)
+    {
+        await _moduleClient.SendEventBatchAsync(output, messages, stoppingToken);
+    }
+
     /// <inheritdoc cref="IModuleClient.UpdateReportedPropertiesAsync"/>
     public async Task UpdateReportedPropertiesAsync(TwinCollection desiredProperties, CancellationToken stoppingToken = default)
     {

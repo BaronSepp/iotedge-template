@@ -1,5 +1,8 @@
 using IoTEdge.Template.IoT;
-using IoTEdge.Template.IoT.Handlers;
+using IoTEdge.Template.IoT.ConnectionHandlers;
+using IoTEdge.Template.IoT.MessageHandlers;
+using IoTEdge.Template.IoT.MethodHandlers;
+using IoTEdge.Template.IoT.TwinHandlers;
 using IoTEdge.Template.Options;
 using IoTEdge.Template.Services;
 using Microsoft.Extensions.Configuration;
@@ -64,10 +67,9 @@ public static class Program
                 services.Configure<ModuleClientOptions>(host.Configuration.GetRequiredSection(ModuleClientOptions.Section));
                 services.Configure<MetricOptions>(host.Configuration.GetRequiredSection(MetricOptions.Section));
 
-                services.AddSingleton<IMessageHandler, MessageHandler>();
-                services.AddSingleton<IMethodHandler, MethodHandler>();
+                services.AddSingleton<IMessageHandler, DefaultMessageHandler>();
+                services.AddSingleton<IMethodHandler, DefaultMethodHandler>();
                 services.AddSingleton<ITwinHandler, TwinHandler>();
-                services.AddSingleton<IMessageHandler, MessageHandler>();
                 services.AddSingleton<IConnectionHandler, ConnectionHandler>();
                 services.AddSingleton<IModuleClient, ModuleClient>();
 

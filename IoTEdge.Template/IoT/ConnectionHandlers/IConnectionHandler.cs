@@ -1,6 +1,6 @@
 using Microsoft.Azure.Devices.Client;
 
-namespace IoTEdge.Template.IoT.Handlers;
+namespace IoTEdge.Template.IoT.ConnectionHandlers;
 
 /// <summary>
 /// Interface for handling connection status changes.

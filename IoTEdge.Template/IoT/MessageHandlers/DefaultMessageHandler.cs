@@ -4,29 +4,34 @@ using Prometheus;
 using System;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.IoT.Handlers;
+namespace IoTEdge.Template.IoT.MessageHandlers;
 
 /// <summary>
-/// Implementation for handling incoming messages.
+/// The default delegate which applies to all message endpoints.
+/// If a delegate is already associated with the input, it
+/// will be called, else the default delegate will be called.
 /// </summary>
-public sealed class MessageHandler : IMessageHandler
+public sealed class DefaultMessageHandler : IMessageHandler
 {
     private readonly Counter _unhandledMessageCounter;
-    private readonly ILogger<MessageHandler> _logger;
+    private readonly ILogger<DefaultMessageHandler> _logger;
 
     /// <summary>
-    /// Public <see cref="MessageHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
+    /// Public <see cref="DefaultMessageHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
     /// </summary>
     /// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
     /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
-    public MessageHandler(ILogger<MessageHandler> logger)
+    public DefaultMessageHandler(ILogger<DefaultMessageHandler> logger)
     {
         _unhandledMessageCounter = Metrics.CreateCounter("unhandled_message_counter", "Amount of unhandled messages received");
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    /// <inheritdoc cref="IMessageHandler.Default(Message, object)"/>
-    public Task<MessageResponse> Default(Message message, object userContext)
+    /// <inheritdoc cref="IMessageHandler.InputName"/>
+    public string InputName => "*";
+
+    /// <inheritdoc cref="IMessageHandler.Handle"/>
+    public Task<MessageResponse> Handle(Message message, object userContext)
     {
         _unhandledMessageCounter.Inc();
         _logger.LogInformation("Unhandled message received from module {module}", message.ConnectionModuleId);

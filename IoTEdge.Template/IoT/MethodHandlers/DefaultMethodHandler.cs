@@ -5,29 +5,35 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace IoTEdge.Template.IoT.Handlers;
+namespace IoTEdge.Template.IoT.MethodHandlers;
 
 /// <summary>
-/// Implementation for handling C2D method calls.
+/// The default delegate that applies for all method endpoints.
+/// If a delegate is already associated with the method, it
+/// will be called, else the default delegate will be called.
 /// </summary>
-public sealed class MethodHandler : IMethodHandler
+public sealed class DefaultMethodHandler : IMethodHandler
 {
     private readonly Counter _unhandledMethodCounter;
-    private readonly ILogger<MethodHandler> _logger;
+    private readonly ILogger<DefaultMethodHandler> _logger;
 
     /// <summary>
-    /// Public <see cref="MethodHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
+    /// Public <see cref="DefaultMethodHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
     /// </summary>
     /// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
     /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
-    public MethodHandler(ILogger<MethodHandler> logger)
+    public DefaultMethodHandler(ILogger<DefaultMethodHandler> logger)
     {
         _unhandledMethodCounter = Metrics.CreateCounter("unhandled_method_counter", "Amount of unhandled methods received");
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    /// <inheritdoc cref="IMethodHandler.Default(MethodRequest, object)"/>
-    public Task<MethodResponse> Default(MethodRequest method, object userContext)
+    /// <inheritdoc cref="IMethodHandler.MethodName"/>
+    public string MethodName => "*";
+
+
+    /// <inheritdoc cref="IMethodHandler.Handle"/>
+    public Task<MethodResponse> Handle(MethodRequest method, object userContext)
     {
         _unhandledMethodCounter.Inc();
         _logger.LogInformation("Unhandled method '{Method}' received with data '{Data}'.", method.Name, method.DataAsJson);

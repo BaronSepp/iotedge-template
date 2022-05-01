@@ -1,10 +1,14 @@
-using IoTEdge.Template.IoT.Handlers;
+using IoTEdge.Template.IoT.ConnectionHandlers;
+using IoTEdge.Template.IoT.MessageHandlers;
+using IoTEdge.Template.IoT.MethodHandlers;
+using IoTEdge.Template.IoT.TwinHandlers;
 using IoTEdge.Template.Options;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using InternalModuleClient = Microsoft.Azure.Devices.Client.ModuleClient;
@@ -17,9 +21,9 @@ namespace IoTEdge.Template.IoT;
 public sealed class ModuleClient : IModuleClient
 {
     private readonly ILogger<ModuleClient> _logger;
-    private readonly IMessageHandler _messageHandler;
+    private readonly IEnumerable<IMessageHandler> _messageHandlers;
     private readonly ITwinHandler _twinHandler;
-    private readonly IMethodHandler _methodHandler;
+    private readonly IEnumerable<IMethodHandler> _methodHandlers;
     private readonly IConnectionHandler _connectionHandler;
     private readonly ModuleClientOptions _moduleClientOptions;
 
@@ -29,24 +33,24 @@ public sealed class ModuleClient : IModuleClient
     /// Public <see cref="ModuleClient"/> constructor, parameters resolved through <b>Dependency injection</b>.
     /// </summary>
     /// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
-    /// <param name="messageHandler"><see cref="IMessageHandler"/> resolved through <b>Dependency injection</b>.</param>
+    /// <param name="messageHandlers"><see cref="IMethodHandler"/> resolved through <b>Dependency injection</b>.</param>
     /// <param name="twinHandler"><see cref="ITwinHandler"/> resolved through <b>Dependency injection</b>.</param>
-    /// <param name="methodHandler"><see cref="IMethodHandler"/> resolved through <b>Dependency injection</b>.</param>
+    /// <param name="methodHandlers"><see cref="IMethodHandler"/> resolved through <b>Dependency injection</b>.</param>
     /// <param name="connectionHandler"><see cref="IConnectionHandler"/> resolved through <b>Dependency injection</b>.</param>
     /// <param name="moduleClientOptions"><see cref="IOptions{ModuleClientOptions}"/> resolved through <b>Dependency injection</b>.</param>
     /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
     public ModuleClient(
         ILogger<ModuleClient> logger,
-        IMessageHandler messageHandler,
+        IEnumerable<IMessageHandler> messageHandlers,
         ITwinHandler twinHandler,
-        IMethodHandler methodHandler,
+        IEnumerable<IMethodHandler> methodHandlers,
         IConnectionHandler connectionHandler,
         IOptions<ModuleClientOptions> moduleClientOptions)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _messageHandler = messageHandler ?? throw new ArgumentNullException(nameof(messageHandler));
+        _messageHandlers = messageHandlers ?? throw new ArgumentNullException(nameof(messageHandlers));
         _twinHandler = twinHandler ?? throw new ArgumentNullException(nameof(twinHandler));
-        _methodHandler = methodHandler ?? throw new ArgumentNullException(nameof(methodHandler));
+        _methodHandlers = methodHandlers ?? throw new ArgumentNullException(nameof(methodHandlers));
         _connectionHandler = connectionHandler ?? throw new ArgumentNullException(nameof(connectionHandler));
         _moduleClientOptions = moduleClientOptions.Value ?? throw new ArgumentNullException(nameof(moduleClientOptions));
     }
@@ -70,11 +74,29 @@ public sealed class ModuleClient : IModuleClient
         _logger.LogDebug("Twin handler ready.");
 
         // Method Handlers
-        await _moduleClient.SetMethodDefaultHandlerAsync(_methodHandler.Default, this, stoppingToken).ConfigureAwait(false);
+        foreach (var methodHandler in _methodHandlers)
+        {
+            if (methodHandler.MethodName == "*")
+            {
+                await _moduleClient.SetMethodDefaultHandlerAsync(methodHandler.Handle, this, stoppingToken).ConfigureAwait(false);
+                continue;
+            }
+
+            await _moduleClient.SetMethodHandlerAsync(methodHandler.MethodName, methodHandler.Handle, this, stoppingToken).ConfigureAwait(false);
+        }
         _logger.LogDebug("Method handlers ready.");
 
         // Message Handlers
-        await _moduleClient.SetMessageHandlerAsync(_messageHandler.Default, this, stoppingToken).ConfigureAwait(false);
+        foreach (var messageHandler in _messageHandlers)
+        {
+            if (messageHandler.InputName == "*")
+            {
+                await _moduleClient.SetMessageHandlerAsync(messageHandler.Handle, this, stoppingToken).ConfigureAwait(false);
+                continue;
+            }
+
+            await _moduleClient.SetInputMessageHandlerAsync(messageHandler.InputName, messageHandler.Handle, this, stoppingToken).ConfigureAwait(false);
+        }
         _logger.LogDebug("Message handlers ready.");
 
         // Open the ModuleClient instance

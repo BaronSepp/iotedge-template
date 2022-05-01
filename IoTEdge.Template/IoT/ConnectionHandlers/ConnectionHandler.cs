@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Prometheus;
 using System;
 
-namespace IoTEdge.Template.IoT.Handlers;
+namespace IoTEdge.Template.IoT.ConnectionHandlers;
 
 /// <summary>
 /// Implementation for handling connection status changes.

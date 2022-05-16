@@ -14,31 +14,31 @@ namespace IoTEdge.Template.IoT.MethodHandlers;
 /// </summary>
 public sealed class DefaultMethodHandler : IMethodHandler
 {
-    private readonly Counter _unhandledMethodCounter;
-    private readonly ILogger<DefaultMethodHandler> _logger;
+	private readonly Counter _unhandledMethodCounter;
+	private readonly ILogger<DefaultMethodHandler> _logger;
 
-    /// <summary>
-    /// Public <see cref="DefaultMethodHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
-    /// </summary>
-    /// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
-    /// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
-    public DefaultMethodHandler(ILogger<DefaultMethodHandler> logger)
-    {
-        _unhandledMethodCounter = Metrics.CreateCounter("unhandled_method_counter", "Amount of unhandled methods received");
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+	/// <summary>
+	/// Public <see cref="DefaultMethodHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
+	/// </summary>
+	/// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
+	/// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
+	public DefaultMethodHandler(ILogger<DefaultMethodHandler> logger)
+	{
+		_unhandledMethodCounter = Metrics.CreateCounter("unhandled_method_counter", "Amount of unhandled methods received");
+		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+	}
 
-    /// <inheritdoc cref="IMethodHandler.MethodName"/>
-    public string MethodName => "*";
+	/// <inheritdoc cref="IMethodHandler.MethodName"/>
+	public string MethodName => "*";
 
 
-    /// <inheritdoc cref="IMethodHandler.Handle"/>
-    public Task<MethodResponse> Handle(MethodRequest method, object userContext)
-    {
-        _unhandledMethodCounter.Inc();
-        _logger.LogInformation("Unhandled method '{Method}' received with data '{Data}'.", method.Name, method.DataAsJson);
+	/// <inheritdoc cref="IMethodHandler.Handle"/>
+	public Task<MethodResponse> Handle(MethodRequest method, object userContext)
+	{
+		_unhandledMethodCounter.Inc();
+		_logger.LogInformation("Unhandled method '{Method}' received with data '{Data}'.", method.Name, method.DataAsJson);
 
-        var response = new MethodResponse(JsonSerializer.SerializeToUtf8Bytes("short and stout"), 418);
-        return Task.FromResult(response);
-    }
+		var response = new MethodResponse(JsonSerializer.SerializeToUtf8Bytes("short and stout"), 418);
+		return Task.FromResult(response);
+	}
 }

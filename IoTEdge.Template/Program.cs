@@ -43,7 +43,7 @@ public static class Program
         return Host.CreateDefaultBuilder()
             .ConfigureAppConfiguration(app =>
             {
-                var switchMappings = new Dictionary<string, string>
+                IDictionary<string, string> switchMappings = new Dictionary<string, string>
                 {
                     {"-u", "ModuleClient:UpstreamProtocol"},
                     {"--UpstreamProtocol", "ModuleClient:UpstreamProtocol"},

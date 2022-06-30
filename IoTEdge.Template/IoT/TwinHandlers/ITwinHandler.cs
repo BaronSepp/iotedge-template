@@ -1,6 +1,5 @@
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
-using System.Threading.Tasks;
 
 namespace IoTEdge.Template.IoT.TwinHandlers;
 

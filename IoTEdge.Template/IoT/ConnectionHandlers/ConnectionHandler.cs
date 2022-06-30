@@ -1,7 +1,6 @@
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Extensions.Logging;
 using Prometheus;
-using System;
 
 namespace IoTEdge.Template.IoT.ConnectionHandlers;
 

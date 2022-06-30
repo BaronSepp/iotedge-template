@@ -1,8 +1,6 @@
 using Microsoft.Azure.Devices.Shared;
 using Microsoft.Extensions.Logging;
 using Prometheus;
-using System;
-using System.Threading.Tasks;
 
 namespace IoTEdge.Template.IoT.TwinHandlers;
 

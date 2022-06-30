@@ -1,9 +1,6 @@
 using IoTEdge.Template.IoT;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace IoTEdge.Template.Services;
 

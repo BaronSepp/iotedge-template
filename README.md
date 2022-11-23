@@ -1,6 +1,6 @@
 # IoTEdge Template
 
-A modern template for Azure IoT Edge featuring .NET6, Hosting, DI, Logging Abstractions and Metrics.
+A modern template for Azure IoT Edge featuring .NET7, Hosting, DI, Logging Abstractions and Metrics.
 
 ## Installation
 

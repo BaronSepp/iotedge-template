@@ -36,18 +36,16 @@ public static class Program
 	/// <param name="args">Command line arguments in key/value pair format.</param>
 	/// <returns>The initialized <see cref="IHostBuilder"/>.</returns>
 	private static IHostBuilder CreateHostBuilder(string[] args)
-	{
-		return Host.CreateDefaultBuilder(args)
+		=> Host.CreateDefaultBuilder(args)
 			.ConfigureAppConfiguration(app =>
 			{
-				IDictionary<string, string> switchMappings = new Dictionary<string, string>
+				app.AddCommandLine(args, new Dictionary<string, string>
 				{
 					{"-u", "ModuleClient:UpstreamProtocol"},
 					{"--UpstreamProtocol", "ModuleClient:UpstreamProtocol"},
 					{"-v", "Logging:LogLevel:Default"},
 					{"--Verbosity", "Logging:LogLevel:Default"},
-				};
-				app.AddCommandLine(args, switchMappings);
+				});
 			})
 			.ConfigureLogging(logging =>
 			{
@@ -55,7 +53,7 @@ public static class Program
 				logging.AddSimpleConsole(c =>
 				{
 					c.UseUtcTimestamp = true;
-					c.TimestampFormat = "[yyyy-MM-dd HH:mm:ss.mmm] ";
+					c.TimestampFormat = "[yyyy-MM-dd HH:mm:ss.fff] ";
 				});
 			})
 			.ConfigureServices((host, services) =>
@@ -74,5 +72,4 @@ public static class Program
 				services.AddHostedService<MetricService>();
 			})
 			.UseConsoleLifetime();
-	}
 }

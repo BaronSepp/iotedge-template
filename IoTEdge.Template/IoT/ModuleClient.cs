@@ -23,7 +23,7 @@ public sealed class ModuleClient : IModuleClient
 	private readonly IConnectionHandler _connectionHandler;
 	private readonly ModuleClientOptions _moduleClientOptions;
 
-	private InternalModuleClient _moduleClient;
+	private InternalModuleClient? _moduleClient;
 
 	/// <summary>
 	/// Public <see cref="ModuleClient"/> constructor, parameters resolved through <b>Dependency injection</b>.
@@ -103,19 +103,19 @@ public sealed class ModuleClient : IModuleClient
 	/// <inheritdoc cref="IModuleClient.SendEventAsync"/>
 	public async Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default)
 	{
-		await _moduleClient.SendEventAsync(output, message, stoppingToken);
+		await _moduleClient!.SendEventAsync(output, message, stoppingToken);
 	}
 
 	/// <inheritdoc cref="IModuleClient.SendEventBatchAsync"/>
 	public async Task SendEventBatchAsync(string output, IEnumerable<Message> messages, CancellationToken stoppingToken = default)
 	{
-		await _moduleClient.SendEventBatchAsync(output, messages, stoppingToken);
+		await _moduleClient!.SendEventBatchAsync(output, messages, stoppingToken);
 	}
 
 	/// <inheritdoc cref="IModuleClient.UpdateReportedPropertiesAsync"/>
 	public async Task UpdateReportedPropertiesAsync(TwinCollection desiredProperties, CancellationToken stoppingToken = default)
 	{
-		await _moduleClient.UpdateReportedPropertiesAsync(desiredProperties, stoppingToken);
+		await _moduleClient!.UpdateReportedPropertiesAsync(desiredProperties, stoppingToken);
 	}
 
 	/// <inheritdoc cref="IAsyncDisposable.DisposeAsync"/>

@@ -50,7 +50,7 @@ public sealed class MetricService : IHostedService
 	public async Task StopAsync(CancellationToken cancellationToken)
 	{
 		_logger.LogInformation("Stopping Metrics server..");
-		await _metricServer?.StopAsync();
+		await _metricServer.StopAsync();
 		_metricServer?.Dispose();
 	}
 }

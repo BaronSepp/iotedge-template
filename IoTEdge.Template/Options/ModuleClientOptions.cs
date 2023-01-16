@@ -14,7 +14,7 @@ public class ModuleClientOptions
 	public const string Section = "ModuleClient";
 
 	/// <summary>The protocol to use for communication with IoT Hub.</summary>
-	public string UpstreamProtocol { get; set; }
+	public string UpstreamProtocol { get; set; } = string.Empty;
 
 	/// <summary>Get the UpstreamProtocol from current options.</summary>
 	/// <returns>The <see cref="TransportType">TransportType</see> to use.</returns>

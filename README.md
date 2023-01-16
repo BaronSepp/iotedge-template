@@ -7,7 +7,7 @@ A modern template for Azure IoT Edge featuring .NET7, Hosting, DI, Logging Abstr
 ```shell
 git clone https://github.com/BaronSepp/iotedge-template
 cd iotedge-template
-dotnet new --install .
+dotnet new install . --force
 ```
 
 ## How to use
@@ -22,5 +22,5 @@ dotnet new iotedge -n <Name> -o <OutputPath>
 
 ```shell
 cd iotedge-template
-dotnet new --uninstall .
+dotnet new uninstall .
 ```

@@ -5,7 +5,7 @@ namespace IoTEdge.Template.Options;
 /// <summary>
 /// Options to configure the <see cref="MetricServer"/>.
 /// </summary>
-public class MetricOptions
+public sealed class MetricOptions
 {
 	/// <summary>
 	/// The section where these settings are located in the appsettings.json

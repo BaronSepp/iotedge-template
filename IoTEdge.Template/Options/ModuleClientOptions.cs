@@ -6,7 +6,7 @@ namespace IoTEdge.Template.Options;
 /// Options to configure the IoTEdge Service.
 /// These are overridden by the Module Twin if set.
 /// </summary>
-public class ModuleClientOptions
+public sealed class ModuleClientOptions
 {
 	/// <summary>
 	/// The section where these settings are located in the appsettings.json

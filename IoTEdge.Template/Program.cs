@@ -22,10 +22,10 @@ public static class Program
 	/// </summary>
 	/// <param name="args">Command line arguments in key/value pair format.</param>
 	/// <returns><inheritdoc cref="Environment.ExitCode"/></returns>
-	public static async Task<int> Main(string[] args)
+	public static int Main(string[] args)
 	{
 		using var host = CreateHostBuilder(args).Build();
-		await host.RunAsync();
+		host.Run();
 
 		return Environment.ExitCode;
 	}
@@ -37,7 +37,7 @@ public static class Program
 	/// <returns>The initialized <see cref="IHostBuilder"/>.</returns>
 	private static IHostBuilder CreateHostBuilder(string[] args)
 	{
-		return Host.CreateDefaultBuilder()
+		return Host.CreateDefaultBuilder(args)
 			.ConfigureAppConfiguration(app =>
 			{
 				IDictionary<string, string> switchMappings = new Dictionary<string, string>

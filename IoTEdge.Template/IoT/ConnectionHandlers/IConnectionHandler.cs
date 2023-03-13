@@ -16,5 +16,5 @@ public interface IConnectionHandler
 	/// </remarks>
 	/// <param name="status">The updated connection status.</param>
 	/// <param name="reason">The reason for the connection status change.</param>
-	void OnConnectionChange(ConnectionStatus status, ConnectionStatusChangeReason reason);
+	public void OnConnectionChange(ConnectionStatus status, ConnectionStatusChangeReason reason);
 }

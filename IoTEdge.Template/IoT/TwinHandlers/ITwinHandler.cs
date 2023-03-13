@@ -16,5 +16,5 @@ public interface ITwinHandler
 	/// <param name="userContext">Context object passed in when the callback was registered</param>
 	/// <returns><inheritdoc cref="Task"/></returns>
 	/// <inheritdoc cref="DesiredPropertyUpdateCallback"/>
-	Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext);
+	public Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext);
 }

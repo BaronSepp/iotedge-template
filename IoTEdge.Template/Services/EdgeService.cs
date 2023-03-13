@@ -7,7 +7,7 @@ namespace IoTEdge.Template.Services;
 /// <summary>
 /// <see cref="BackgroundService"/> for the <see cref="ModuleClient"/>.
 /// </summary>
-public sealed class EdgeService : BackgroundService
+public sealed class EdgeService : IHostedService
 {
 	private readonly ILogger<EdgeService> _logger;
 	private readonly IModuleClient _moduleClient;
@@ -24,12 +24,12 @@ public sealed class EdgeService : BackgroundService
 		_moduleClient = moduleClient ?? throw new ArgumentNullException(nameof(moduleClient));
 	}
 
-	/// <inheritdoc cref="BackgroundService.ExecuteAsync(CancellationToken)"/>
-	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+	/// <inheritdoc cref="IHostedService.StartAsync"/>
+	public async Task StartAsync(CancellationToken cancellationToken)
 	{
 		try
 		{
-			await _moduleClient.OpenAsync(stoppingToken).ConfigureAwait(false);
+			await _moduleClient.OpenAsync(cancellationToken).ConfigureAwait(false);
 			_logger.LogInformation("Successfully started the ModuleClient.");
 		}
 		catch (Exception ex)
@@ -38,4 +38,7 @@ public sealed class EdgeService : BackgroundService
 			throw;
 		}
 	}
+
+	/// <inheritdoc cref="IHostedService.StopAsync"/>
+	public async Task StopAsync(CancellationToken cancellationToken) => await _moduleClient.DisposeAsync();
 }

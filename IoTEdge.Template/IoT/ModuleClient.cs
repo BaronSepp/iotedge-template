@@ -51,7 +51,7 @@ public sealed class ModuleClient : IModuleClient
 		_moduleClientOptions = moduleClientOptions.Value ?? throw new ArgumentNullException(nameof(moduleClientOptions));
 	}
 
-	/// <inheritdoc cref="IModuleClient.OpenAsync(CancellationToken)" />
+	/// <inheritdoc cref="IModuleClient.OpenAsync" />
 	public async Task OpenAsync(CancellationToken stoppingToken)
 	{
 		// Initialize the Edge runtime
@@ -127,6 +127,12 @@ public sealed class ModuleClient : IModuleClient
 			await disposable.DisposeAsync().ConfigureAwait(false);
 		}
 	}
+
+	/// <inheritdoc cref="IModuleClient.ModuleId"/>
+	public string ModuleId => Environment.GetEnvironmentVariable("IOTEDGE_MODULEID") ?? "Undefined";
+
+	/// <inheritdoc cref="IModuleClient.DeviceId"/>
+	public string DeviceId => Environment.GetEnvironmentVariable("IOTEDGE_DEVICEID") ?? "Undefined";
 
 	/// <inheritdoc cref="IDisposable.Dispose"/>
 	public void Dispose()

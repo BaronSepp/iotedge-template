@@ -7,23 +7,23 @@ namespace IoTEdge.Template.IoT.TwinHandlers;
 /// <summary>
 /// Implementation for handling module twin updates.
 /// </summary>
-public sealed class TwinHandler : ITwinHandler
+public sealed class DefaultTwinHandler : ITwinHandler
 {
 	private readonly Counter _twinUpdateCounter;
-	private readonly ILogger<TwinHandler> _logger;
+	private readonly ILogger<DefaultTwinHandler> _logger;
 
 	/// <summary>
-	/// Public <see cref="TwinHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
+	/// Public <see cref="DefaultTwinHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
 	/// </summary>
 	/// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
 	/// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
-	public TwinHandler(ILogger<TwinHandler> logger)
+	public DefaultTwinHandler(ILogger<DefaultTwinHandler> logger)
 	{
 		_twinUpdateCounter = Metrics.CreateCounter("twin_updates_received", "Amount of twin updates received");
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 	}
 
-	/// <inheritdoc cref="ITwinHandler.OnDesiredPropertiesUpdate(TwinCollection, object)"/>
+	/// <inheritdoc cref="ITwinHandler.OnDesiredPropertiesUpdate"/>
 	public async Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext)
 	{
 		desiredProperties.ClearMetadata();

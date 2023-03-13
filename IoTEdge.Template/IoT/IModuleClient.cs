@@ -10,14 +10,24 @@ namespace IoTEdge.Template.IoT;
 public interface IModuleClient : IAsyncDisposable, IDisposable
 {
 	/// <inheritdoc cref="InternalModuleClient.OpenAsync(CancellationToken)"/>
-	Task OpenAsync(CancellationToken stoppingToken);
+	public Task OpenAsync(CancellationToken stoppingToken);
 
 	/// <inheritdoc cref="InternalModuleClient.SendEventAsync(string, Message, CancellationToken)"/>
-	Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default);
+	public Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default);
 
 	/// <inheritdoc cref="InternalModuleClient.SendEventBatchAsync(string, IEnumerable{Message}, CancellationToken)"/>
 	public Task SendEventBatchAsync(string output, IEnumerable<Message> messages, CancellationToken stoppingToken = default);
 
 	/// <inheritdoc cref="InternalModuleClient.UpdateReportedPropertiesAsync(TwinCollection, CancellationToken)"/>
-	Task UpdateReportedPropertiesAsync(TwinCollection desiredProperties, CancellationToken stoppingToken = default);
+	public Task UpdateReportedPropertiesAsync(TwinCollection desiredProperties, CancellationToken stoppingToken = default);
+
+	/// <summary>
+	/// The ID of the module as defined in IoT Hub/Central.
+	/// </summary>
+	public string ModuleId { get; }
+
+	/// <summary>
+	/// The ID of the device the module is running on as defined in IoT Hub/Central.
+	/// </summary>
+	public string DeviceId { get; }
 }

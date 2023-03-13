@@ -64,8 +64,8 @@ public static class Program
 
 				services.AddSingleton<IMessageHandler, DefaultMessageHandler>();
 				services.AddSingleton<IMethodHandler, DefaultMethodHandler>();
-				services.AddSingleton<ITwinHandler, TwinHandler>();
-				services.AddSingleton<IConnectionHandler, ConnectionHandler>();
+				services.AddSingleton<ITwinHandler, DefaultTwinHandler>();
+				services.AddSingleton<IConnectionHandler, DefaultConnectionHandler>();
 				services.AddSingleton<IModuleClient, ModuleClient>();
 
 				services.AddHostedService<EdgeService>();

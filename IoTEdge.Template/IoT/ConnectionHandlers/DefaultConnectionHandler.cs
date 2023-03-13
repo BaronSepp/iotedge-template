@@ -7,17 +7,17 @@ namespace IoTEdge.Template.IoT.ConnectionHandlers;
 /// <summary>
 /// Implementation for handling connection status changes.
 /// </summary>
-public sealed class ConnectionHandler : IConnectionHandler
+public sealed class DefaultConnectionHandler : IConnectionHandler
 {
 	private readonly Counter _connectionChangeCounter;
-	private readonly ILogger<ConnectionHandler> _logger;
+	private readonly ILogger<DefaultConnectionHandler> _logger;
 
 	/// <summary>
-	/// Public <see cref="ConnectionHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
+	/// Public <see cref="DefaultConnectionHandler"/> constructor, parameters resolved through <b>Dependency injection</b>.
 	/// </summary>
 	/// <param name="logger"><see cref="ILogger"/> resolved through <b>Dependency injection</b>.</param>
 	/// <exception cref="ArgumentNullException">Thrown when any of the parameters could not be resolved.</exception>
-	public ConnectionHandler(ILogger<ConnectionHandler> logger)
+	public DefaultConnectionHandler(ILogger<DefaultConnectionHandler> logger)
 	{
 		_connectionChangeCounter = Metrics.CreateCounter("connection_changes", "Amount of times the connection has changed");
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));

@@ -9,12 +9,10 @@ namespace IoTEdge.Template.IoT.TwinHandlers;
 public interface ITwinHandler
 {
 	/// <summary>
-	/// The callback that will be called whenever the 
-	/// client receives a state update from the service.
+	///	Represents a read-only key/value pair collection based on the received <see cref="TwinCollection"/>
 	/// </summary>
-	/// <param name="desiredProperties">Properties that were contained in the update that was received from the service</param>
-	/// <param name="userContext">Context object passed in when the callback was registered</param>
-	/// <returns><inheritdoc cref="Task"/></returns>
+	public IReadOnlyDictionary<string, object> Twin { get; }
+
 	/// <inheritdoc cref="DesiredPropertyUpdateCallback"/>
 	public Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext);
 }

@@ -21,7 +21,12 @@ public sealed class DefaultTwinHandler : ITwinHandler
 	{
 		_twinUpdateCounter = Metrics.CreateCounter("twin_updates_received", "Amount of twin updates received");
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+		Twin = new Dictionary<string, object>(0);
 	}
+
+	/// <inheritdoc cref="ITwinHandler"/>
+	public IReadOnlyDictionary<string, object> Twin { get; private set; }
 
 	/// <inheritdoc cref="ITwinHandler.OnDesiredPropertiesUpdate"/>
 	public async Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext)

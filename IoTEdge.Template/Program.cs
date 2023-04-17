@@ -36,9 +36,10 @@ public static class Program
 	/// <param name="args">Command line arguments in key/value pair format.</param>
 	/// <returns>The initialized <see cref="IHostBuilder"/>.</returns>
 	private static IHostBuilder CreateHostBuilder(string[] args)
-		=> Host.CreateDefaultBuilder(args)
+		=> new HostBuilder()
 			.ConfigureAppConfiguration(app =>
 			{
+				app.AddEnvironmentVariables();
 				app.AddCommandLine(args, new Dictionary<string, string>
 				{
 					{"-u", "ModuleClient:UpstreamProtocol"},
@@ -46,10 +47,10 @@ public static class Program
 					{"-v", "Logging:LogLevel:Default"},
 					{"--Verbosity", "Logging:LogLevel:Default"},
 				});
+				app.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 			})
 			.ConfigureLogging(logging =>
 			{
-				logging.ClearProviders();
 				logging.AddSimpleConsole(c =>
 				{
 					c.UseUtcTimestamp = true;
@@ -70,6 +71,5 @@ public static class Program
 
 				services.AddHostedService<EdgeService>();
 				services.AddHostedService<MetricService>();
-			})
-			.UseConsoleLifetime();
+			});
 }

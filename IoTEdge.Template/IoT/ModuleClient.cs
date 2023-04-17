@@ -51,6 +51,12 @@ public sealed class ModuleClient : IModuleClient
 		_moduleClientOptions = moduleClientOptions.Value ?? throw new ArgumentNullException(nameof(moduleClientOptions));
 	}
 
+	/// <inheritdoc cref="IModuleClient.ModuleId"/>
+	public string ModuleId => Environment.GetEnvironmentVariable("IOTEDGE_MODULEID") ?? "Undefined";
+
+	/// <inheritdoc cref="IModuleClient.DeviceId"/>
+	public string DeviceId => Environment.GetEnvironmentVariable("IOTEDGE_DEVICEID") ?? "Undefined";
+
 	/// <inheritdoc cref="IModuleClient.OpenAsync" />
 	public async Task OpenAsync(CancellationToken stoppingToken)
 	{
@@ -101,22 +107,20 @@ public sealed class ModuleClient : IModuleClient
 	}
 
 	/// <inheritdoc cref="IModuleClient.SendEventAsync"/>
-	public async Task SendEventAsync(string output, Message message, CancellationToken stoppingToken = default)
-	{
-		await _moduleClient!.SendEventAsync(output, message, stoppingToken);
-	}
+	public async Task SendEventAsync(string output, Message message, CancellationToken stoppingToken)
+		=> await _moduleClient!.SendEventAsync(output, message, stoppingToken);
 
 	/// <inheritdoc cref="IModuleClient.SendEventBatchAsync"/>
-	public async Task SendEventBatchAsync(string output, IEnumerable<Message> messages, CancellationToken stoppingToken = default)
-	{
-		await _moduleClient!.SendEventBatchAsync(output, messages, stoppingToken);
-	}
+	public async Task SendEventBatchAsync(string output, IEnumerable<Message> messages, CancellationToken stoppingToken)
+		=> await _moduleClient!.SendEventBatchAsync(output, messages, stoppingToken);
 
 	/// <inheritdoc cref="IModuleClient.UpdateReportedPropertiesAsync"/>
-	public async Task UpdateReportedPropertiesAsync(TwinCollection desiredProperties, CancellationToken stoppingToken = default)
-	{
-		await _moduleClient!.UpdateReportedPropertiesAsync(desiredProperties, stoppingToken);
-	}
+	public async Task UpdateReportedPropertiesAsync(TwinCollection desiredProperties, CancellationToken stoppingToken)
+		=> await _moduleClient!.UpdateReportedPropertiesAsync(desiredProperties, stoppingToken);
+
+	/// <inheritdoc cref="IModuleClient.InvokeMethodAsync"/>
+	public async Task<MethodResponse> InvokeMethodAsync(string deviceId, string moduleId, MethodRequest methodRequest, CancellationToken stoppingToken)
+		=> await _moduleClient!.InvokeMethodAsync(deviceId, moduleId, methodRequest, stoppingToken);
 
 	/// <inheritdoc cref="IAsyncDisposable.DisposeAsync"/>
 	public async ValueTask DisposeAsync()
@@ -127,12 +131,6 @@ public sealed class ModuleClient : IModuleClient
 			await disposable.DisposeAsync().ConfigureAwait(false);
 		}
 	}
-
-	/// <inheritdoc cref="IModuleClient.ModuleId"/>
-	public string ModuleId => Environment.GetEnvironmentVariable("IOTEDGE_MODULEID") ?? "Undefined";
-
-	/// <inheritdoc cref="IModuleClient.DeviceId"/>
-	public string DeviceId => Environment.GetEnvironmentVariable("IOTEDGE_DEVICEID") ?? "Undefined";
 
 	/// <inheritdoc cref="IDisposable.Dispose"/>
 	public void Dispose()

@@ -32,14 +32,12 @@ public sealed class DefaultTwinHandler : ITwinHandler
 		TwinUpdated = (_, _) => { };
 	}
 
-	/// <summary>
-	/// Get properties from Desired Properties in the Module Twin.
-	/// </summary>
-	/// <typeparam name="T">The type of the Desired Property.</typeparam>
-	/// <param name="key">The keyname of the Desired Propeprty.</param>
-	/// <returns>The desired property casted to the given Type.</returns>
-	/// <exception cref="NullReferenceException"></exception>
+	/// <inheritdoc cref="ITwinHandler.GetProperty{T}"/>
 	public T GetProperty<T>(string key)
+		=> GetProperty(key).Deserialize<T>() ?? throw new NullReferenceException($"Property {key} could not be parsed to type {typeof(T)}!");
+
+	/// <inheritdoc cref="ITwinHandler.GetProperty"/>
+	public JsonElement GetProperty(string key)
 	{
 		if (string.IsNullOrWhiteSpace(key))
 		{
@@ -51,7 +49,7 @@ public sealed class DefaultTwinHandler : ITwinHandler
 			throw new ArgumentException("Property was not found!", key);
 		}
 
-		return value.Deserialize<T>() ?? throw new NullReferenceException($"Property {key} could not be parsed to type {typeof(T)}!");
+		return value;
 	}
 
 

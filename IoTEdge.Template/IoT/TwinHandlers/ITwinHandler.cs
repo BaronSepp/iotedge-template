@@ -1,5 +1,6 @@
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
+using System.Text.Json;
 
 namespace IoTEdge.Template.IoT.TwinHandlers;
 
@@ -19,8 +20,17 @@ public interface ITwinHandler
 	public Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext);
 
 	/// <summary>
-	/// Get the Desired Property by key and return it of Type T.
+	/// Get properties from Desired Properties in the Module Twin.
 	/// </summary>
+	/// <param name="key">The keyname of the Desired Propeprty.</param>
+	/// <returns>The desired property as <see cref="JsonElement"/>.</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	/// <exception cref="ArgumentException"></exception>
+	public JsonElement GetProperty(string key);
+
+	/// <returns>The desired property casted to the given Type.</returns>
+	/// <exception cref="NullReferenceException"></exception>
+	/// <inheritdoc cref="GetProperty"/>
 	public T GetProperty<T>(string key);
 
 	/// <summary>

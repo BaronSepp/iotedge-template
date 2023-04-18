@@ -91,13 +91,13 @@ By default, the LogLevel is set on 'Information' in the appsettings.json.
 Via the deployment.template.(debug).json, it can be changed to another level.
 ```JSON
         "modules": {
-          "Inimco.Facts.Modules.Sqlv2": {
+          "IoTEdge.Template": {
             "version": "1.0.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULEDIR<../Inimco.Facts.Modules.Sqlv2>}",
+              "image": "${MODULEDIR<../IoTEdge.Template>}",
               "createOptions": {}
             },
             "env": {

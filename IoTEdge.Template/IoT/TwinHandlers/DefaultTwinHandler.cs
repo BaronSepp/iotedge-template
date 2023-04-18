@@ -33,11 +33,11 @@ public sealed class DefaultTwinHandler : ITwinHandler
 	}
 
 	/// <summary>
-	/// 
+	/// Get properties from Desired Properties in the Module Twin.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="key"></param>
-	/// <returns></returns>
+	/// <typeparam name="T">The type of the Desired Property.</typeparam>
+	/// <param name="key">The keyname of the Desired Propeprty.</param>
+	/// <returns>The desired property casted to the given Type.</returns>
 	/// <exception cref="NullReferenceException"></exception>
 	public T GetProperty<T>(string key)
 	{

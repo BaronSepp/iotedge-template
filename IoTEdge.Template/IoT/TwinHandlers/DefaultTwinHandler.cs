@@ -12,7 +12,7 @@ public sealed class DefaultTwinHandler : ITwinHandler
 {
 	private readonly Counter _twinUpdateCounter;
 	private readonly ILogger<DefaultTwinHandler> _logger;
-	private readonly Dictionary<string, JsonElement> _twin;
+	private readonly IDictionary<string, JsonElement> _twin;
 
 	/// <summary>
 	/// EventHandler to subscribe on when the Desired Properties are changed.
@@ -28,8 +28,8 @@ public sealed class DefaultTwinHandler : ITwinHandler
 	{
 		_twinUpdateCounter = Metrics.CreateCounter("twin_updates_received", "Amount of twin updates received");
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-		_twin = new(2);
+		_twin = new Dictionary<string, JsonElement>(0);
+		TwinUpdated = (_, _) => { };
 	}
 
 	/// <summary>
@@ -41,12 +41,17 @@ public sealed class DefaultTwinHandler : ITwinHandler
 	/// <exception cref="NullReferenceException"></exception>
 	public T GetProperty<T>(string key)
 	{
-		if (_twin.TryGetValue(key, out var value))
+		if (string.IsNullOrWhiteSpace(key))
 		{
-			return value.Deserialize<T>() ?? throw new NullReferenceException(nameof(key));
+			throw new ArgumentNullException(nameof(key));
 		}
 
-		return default;
+		if (_twin.TryGetValue(key, out var value) is false)
+		{
+			throw new ArgumentException("Property was not found!", key);
+		}
+
+		return value.Deserialize<T>() ?? throw new NullReferenceException($"Property {key} could not be parsed to type {typeof(T)}!");
 	}
 
 
@@ -65,7 +70,7 @@ public sealed class DefaultTwinHandler : ITwinHandler
 		GetDesiredProperties(desiredProperties);
 
 		// Invoke event
-		TwinUpdated?.Invoke(this, EventArgs.Empty);
+		TwinUpdated.Invoke(this, EventArgs.Empty);
 
 		_twinUpdateCounter.Inc();
 	}
